@@ -16,12 +16,19 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import Image from "next/image"
+import Link from "next/link"
 
-const formSchema = z.object({
-  username: z.string().min(2).max(50),
-})
+const authformSchema = (type: FormType) => {
+  return z.object({
+    username: type === "sign-in" ? z.string().optional() : z.string().min(3),
+    email: z.string().email(),
+    password: z.string().min(3)
+  })
+}
 
 const AuthForm = ({type} : {type: FormType}) => {
+  const formSchema = authformSchema(type)
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
