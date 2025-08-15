@@ -20,10 +20,25 @@ const Page = () => {
         </div>
 
         <Image src="/robot.png" alt="robo-dude" width={400} height={400} className="max-sm:hidden"/>
+</section>
 
-        
-        
-      </section>
+<section className="flex flex-col gap-6 mt-8">
+    <h2>Your Interviews</h2>
+
+    <div className="interviews-section">
+      <p className="text-muted-foreground">You have no interviews yet</p>
+    </div>
+</section>
+
+<section className="flex flex-col gap-6 mt-8">
+  <h2>Take an Interview</h2>
+
+  <div className="interviews-section">
+    <p>
+      There are no interviews available.
+    </p>
+  </div>
+</section>
     </>
   );
 }
