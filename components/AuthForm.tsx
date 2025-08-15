@@ -9,10 +9,11 @@ import {Form} from "@/components/ui/form"
 import Image from "next/image"
 import Link from "next/link"
 import { toast } from "sonner"
+import { FormField } from "./FormField"
 
 const authformSchema = (type: FormType) => {
   return z.object({
-    username: type === "sign-in" ? z.string().optional() : z.string().min(3),
+    name: type === "sign-in" ? z.string().optional() : z.string().min(3),
     email: z.string().email(),
     password: z.string().min(3)
   })
@@ -31,7 +32,7 @@ const AuthForm = ({type} : {type: FormType}) => {
   })
  
   
-  function onSubmit(values: z.infer<typeof formSchema>) {
+function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       if(type === "sign-up"){
         // Handle sign-up logic here
@@ -64,7 +65,14 @@ const AuthForm = ({type} : {type: FormType}) => {
       <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6 mt-4 form">
 
-        {!isSignIn && <p>Name</p>}
+        {!isSignIn && (
+          <FormField
+          control={form.control}
+          name="name"
+          label="Name"
+          placeholder="your Name"/>
+        )
+        }
         <p>Email</p>
         <p>Password</p>
         
