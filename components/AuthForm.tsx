@@ -10,6 +10,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { toast } from "sonner"
 import { FormField } from "./FormField"
+import { useRouter } from "next/navigation"
 
 const authformSchema = (type: FormType) => {
   return z.object({
@@ -20,6 +21,7 @@ const authformSchema = (type: FormType) => {
 }
 
 const AuthForm = ({type} : {type: FormType}) => {
+  const router = useRouter();
   const formSchema = authformSchema(type)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -35,11 +37,11 @@ const AuthForm = ({type} : {type: FormType}) => {
 function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       if(type === "sign-up"){
-        // Handle sign-up logic here
-        console.log("Sign Up Values:", values);
+        toast.success("Account created successfully")
+        router.push('/sign-in')
       } else {
-        // Handle sign-in logic here
-        console.log("Sign In Values:", values);
+        toast.success("Signed in successfully")
+        router.push('/')
       }
     } catch (error) {
       console.log(error);
@@ -73,8 +75,19 @@ function onSubmit(values: z.infer<typeof formSchema>) {
           placeholder="your Name"/>
         )
         }
-        <p>Email</p>
-        <p>Password</p>
+        <FormField
+          control={form.control}
+          name="email"
+          label="Email"
+          placeholder="your Email"
+          type="email"/>
+
+        <FormField
+          control={form.control}
+          name="password"
+          label="Password"
+          placeholder="Enter your Password"
+          type="password"/>
         
         <Button className="btn" type="submit">{isSignIn ? 'Sign in' : 'create an Account'}</Button>
       </form>
