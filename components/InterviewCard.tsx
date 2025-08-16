@@ -1,5 +1,6 @@
 import React from 'react'
 import dayjs from 'dayjs';
+import { getRandomInterviewCover } from '@/lib/utils';
 
 export const InterviewCard = ({interviewId, userId, role, type, techstack, createdAt}
   : InterviewCardProps
