@@ -1,4 +1,4 @@
-import { InterviewCard } from "@/components/InterviewCard";
+import  InterviewCard  from "@/components/InterviewCard";
 import { Button } from "@/components/ui/button";
 import { dummyInterviews } from "@/constants";
 import Image from "next/image";

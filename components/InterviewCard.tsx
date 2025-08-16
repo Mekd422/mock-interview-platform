@@ -3,10 +3,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { Button } from "./ui/button";
-import DisplayTechIcons from "./DisplayTechicons";
+import DisplayTechIcons from "./DisplayTechIcons";
 
 import { cn, getRandomInterviewCover } from "@/lib/utils";
-import { getFeedbackByInterviewId } from "@/lib/feedback";
+
 
 const InterviewCard = async ({
   interviewId,
@@ -18,10 +18,9 @@ const InterviewCard = async ({
 }: InterviewCardProps) => {
   const feedback =
     userId && interviewId
-      ? await getFeedbackByInterviewId({
-          interviewId,
-          userId,
-        })
+      ? (await fetch(
+          `/api/interviews/${userId}/${interviewId}/feedback`
+        ).then((res) => res.json()))
       : null;
 
   const normalizedType = /mix/gi.test(type) ? "Mixed" : type;
