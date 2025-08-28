@@ -75,7 +75,7 @@ export async function setSessionCookie(idToken: string){
 
 } 
 
-export async function signIn(params: signInParams){
+export async function signIn(params: SignInParams){
   const {email, idToken} = params;
 
   try {

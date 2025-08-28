@@ -1,6 +1,6 @@
 "use client"
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { signUp } from "@/lib/actions/auth.action";
+import { signIn, signUp } from "@/lib/actions/auth.action";
 import { auth } from "@/firebase/client";
 
 
