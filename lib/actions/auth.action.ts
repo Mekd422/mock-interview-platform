@@ -74,3 +74,26 @@ export async function setSessionCookie(idToken: string){
     maxAge: SESSION_DURATION,});
 
 } 
+
+export async function signIn(params: signInParams){
+  const {email, idToken} = params;
+
+  try {
+    const userRecord = await auth.getUserByEmail(email);
+    if(!userRecord){
+      return {
+        success: false,
+        message: "User does not exist. Please sign up.",
+      };
+    }
+
+    await setSessionCookie(idToken);
+  } catch (e: unknown) {
+    console.error("Error signing in:", e);
+    return {
+      success: false,
+      message: "Failed to sign in. Please try again.",
+    };
+    
+  }
+}
