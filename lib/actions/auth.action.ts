@@ -18,24 +18,34 @@ export async function signUp(params: SignUpParams) {
     await db.collection("users").doc(uid).set({
       name,
       email,
-      // profileURL,
-      // resumeURL,
     });
 
     return {
       success: true,
       message: "Account created successfully. Please sign in.",
     };
-  } catch (error: any ) {
+  } catch (error: unknown ) {
     console.error("Error creating user:", error);
 
     // Handle Firebase specific errors
-    if (error.code === "auth/email-already-exists") {
+    if (error instanceof Error) {
+    // You can access error.message safely
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+
+  // Firebase-specific error handling
+  if (typeof error === "object" && error !== null && "code" in error) {
+    const e = error as { code: string };
+    if (e.code === "auth/email-already-exists") {
       return {
         success: false,
         message: "This email is already in use",
       };
     }
+  }
 
     return {
       success: false,
