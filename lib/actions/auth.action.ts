@@ -1,6 +1,9 @@
 "use server";
 
 import { auth, db } from "@/firebase/admin";
+import { cookies } from "next/headers";
+
+const SESSION_DURATION = 60 * 60 * 24 * 7; 
 
 export async function signUp(params: SignUpParams) {
   const { uid, name, email } = params;
@@ -53,3 +56,21 @@ export async function signUp(params: SignUpParams) {
     };
   }
 }
+
+export async function setSessionCookie(idToken: string){
+  const cookieStore = await cookies();
+
+  // Create session cookie
+  const sessionCookie = await auth.createSessionCookie(idToken, {
+    expiresIn: SESSION_DURATION * 1000, // in milliseconds
+  });
+  // Set cookie in response
+  cookieStore.set("session", sessionCookie, {
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    value: sessionCookie,
+    httpOnly: true,
+    maxAge: SESSION_DURATION,});
+
+} 
